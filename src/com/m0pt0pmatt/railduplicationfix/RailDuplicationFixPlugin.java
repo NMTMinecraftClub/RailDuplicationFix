@@ -29,7 +29,6 @@ public class RailDuplicationFixPlugin extends JavaPlugin implements Listener{
 	
 	
 	public void onPistonEvent(BlockPistonEvent event){
-		System.out.println("event!");
 		if (!event.isSticky()){
 			return;
 		}
@@ -75,7 +74,6 @@ public class RailDuplicationFixPlugin extends JavaPlugin implements Listener{
 		if (rail.getType().equals(Material.POWERED_RAIL) 
 				|| rail.getType().equals(Material.ACTIVATOR_RAIL) 
 				|| rail.getType().equals(Material.DETECTOR_RAIL)){
-			System.out.println("Canceling event!");
 			event.setCancelled(true);
 			
 		}
