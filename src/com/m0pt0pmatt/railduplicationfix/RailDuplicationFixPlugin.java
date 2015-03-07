@@ -7,6 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RailDuplicationFixPlugin extends JavaPlugin implements Listener{
@@ -16,11 +18,21 @@ public class RailDuplicationFixPlugin extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
+	public void onPistonExtend(BlockPistonExtendEvent event) {
+		onPistonEvent(event);
+	}
+	
+	@EventHandler
+	public void onPistonExtend(BlockPistonRetractEvent event) {
+		onPistonEvent(event);
+	}
+	
+	
 	public void onPistonEvent(BlockPistonEvent event){
-		
 		if (!event.isSticky()){
 			return;
 		}
+		//if ()
 		
 		int x = 0;
 		int y = 0;
@@ -48,13 +60,20 @@ public class RailDuplicationFixPlugin extends JavaPlugin implements Listener{
 			break;
 		}
 		
+		if (event instanceof BlockPistonRetractEvent) {
+			//because it's already extended, we need to look 2 in the right direction:wq
+			
+			x *= 2;
+			y *= 2;
+			z *= 2;
+		}
+		
 		Location location = event.getBlock().getLocation();
 		Block rail = event.getBlock().getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
 		
 		if (rail.getType().equals(Material.POWERED_RAIL) 
 				|| rail.getType().equals(Material.ACTIVATOR_RAIL) 
 				|| rail.getType().equals(Material.DETECTOR_RAIL)){
-			
 			event.setCancelled(true);
 			
 		}
